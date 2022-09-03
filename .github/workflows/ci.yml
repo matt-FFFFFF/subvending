@@ -23,7 +23,7 @@ jobs:
         allow-no-subscriptions: true
 
     - name: Terraform plan composite action
-      uses: ./.github/actions/tf-plan.yml
+      uses: ./.github/actions/tf-plan
       with:
         tf-root-dir: ${{ github.workspace }}
         tf-version: ~1.2.0
