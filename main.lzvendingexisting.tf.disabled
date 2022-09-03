@@ -1,0 +1,20 @@
+module "lz_vending" {
+  source   = "Azure/lz-vending/azurerm"
+  version  = "1.0.1" # change this to your desired version, https://www.terraform.io/language/expressions/version-constraints
+
+  location = "northeurope"
+
+  # subscription variables
+  subscription_alias_enabled = false
+  subscription_id = "fe9810d6-bfcc-40cb-a1be-240e39594432"
+
+  # management group association variables
+  subscription_management_group_association_enabled = true
+  subscription_management_group_id                  = "mw-demo-landing-zones"
+
+  # virtual network variables
+  virtual_network_enabled             = true
+  virtual_network_address_space       = ["192.168.2.0/24"]
+  virtual_network_name                = "spoke"
+  virtual_network_resource_group_name = "rg-networking"
+}
