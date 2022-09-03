@@ -98,7 +98,6 @@ runs:
         ${{ github.workspace }}
         !${{ github.workspace }}/.git/**
     if: steps.plan.outputs.exitcode == '2'
-    shell: bash
 
   # - name: Comment PR with plan summary
   #   run: |
