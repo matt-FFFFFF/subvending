@@ -37,7 +37,7 @@ runs:
 
   - name: Terraform init
     run: |
-      terraform init -no-color -input=false
+      terraform init  -input=false
     working-directory: ${{ inputs.tf-root-dir }}
     env:
       ARM_CLIENT_ID: ${{ inputs.arm-client-id }}
@@ -46,19 +46,19 @@ runs:
 
   - name: Terraform validate
     run: |
-      terraform validate -no-color
+      terraform validate
     working-directory: ${{ inputs.tf-root-dir }}
     shell: bash
 
   - name: Terraform fmt check
     run: |
-      terraform fmt -check -no-color
+      terraform fmt -check
     working-directory: ${{ inputs.tf-root-dir }}
     shell: bash
 
   - name: Tflint init
     run: |
-      tflint --init --no-color
+      tflint --init
     working-directory: ${{ inputs.tf-root-dir }}
     shell: bash
 
