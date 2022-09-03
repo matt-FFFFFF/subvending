@@ -12,18 +12,18 @@ permissions:
 
 jobs:
   ci:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     environment: prod
     steps:
     - name: Azure login
       uses: azure/login@v1
       with:
-        client-id: ${{ env.AZURE_CLIENT_ID }}
-        tenant-id: ${{ env.AZURE_TENANT_ID }}
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         allow-no-subscriptions: true
 
     - name: Terraform plan composite action
-      uses: ./.github/actions/tf-common-plan.yml
+      uses: ./.github/actions/tf-plan.yml
       with:
         tf-root-dir: ${{ github.workspace }}
         tf-version: ~1.2.0
