@@ -28,5 +28,7 @@ jobs:
     - name: Terraform plan composite action
       uses: ./.github/actions/tf-plan
       with:
+        arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         tf-root-dir: ${{ github.workspace }}
         tf-version: ~1.2.0

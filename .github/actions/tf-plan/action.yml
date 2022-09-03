@@ -1,6 +1,11 @@
 name: Terraform Plan
 description: Common steps for Terraform validation and plan
 inputs:
+  arm-client-id:
+    description: Azure client id
+    required: true
+  arm-tenant-id:
+    description: Azure tenant id
   environment:
     description: Environment
     required: true
@@ -35,8 +40,8 @@ runs:
       terraform init -no-color -input=false
     working-directory: ${{ inputs.tf-root-dir }}
     env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ inputs.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ inputs.AZURE_TENANT_ID }}
     shell: bash
 
   - name: Terraform validate
@@ -74,8 +79,8 @@ runs:
     continue-on-error: true
     working-directory: ${{ inputs.tf-root-dir }}
     env:
-      ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ inputs.AZURE_CLIENT_ID }}
+      ARM_TENANT_ID: ${{ inputs.AZURE_TENANT_ID }}
       ARM_USE_OIDC: 'true'
     shell: bash
 
