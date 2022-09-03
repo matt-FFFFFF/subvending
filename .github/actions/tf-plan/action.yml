@@ -40,8 +40,8 @@ runs:
       terraform init -no-color -input=false
     working-directory: ${{ inputs.tf-root-dir }}
     env:
-      ARM_CLIENT_ID: ${{ inputs.AZURE_CLIENT_ID }}
-      ARM_TENANT_ID: ${{ inputs.AZURE_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ inputs.arm-client-id }}
+      ARM_TENANT_ID: ${{ inputs.arm-tenant-id }}
     shell: bash
 
   - name: Terraform validate
@@ -79,8 +79,8 @@ runs:
     continue-on-error: true
     working-directory: ${{ inputs.tf-root-dir }}
     env:
-      ARM_CLIENT_ID: ${{ inputs.AZURE_CLIENT_ID }}
-      ARM_TENANT_ID: ${{ inputs.AZURE_TENANT_ID }}
+      ARM_CLIENT_ID: ${{ inputs.arm-client-id }}
+      ARM_TENANT_ID: ${{ inputs.arm-tenant-id }}
       ARM_USE_OIDC: 'true'
     shell: bash
 
