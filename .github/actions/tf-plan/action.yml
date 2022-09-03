@@ -13,6 +13,10 @@ inputs:
     description: 'Terraform root directory'
     required: true
     default: ${{ github.workspace }}
+  tf-paralellism:
+    description: 'Terraform parallelism'
+    required: false
+    default: '50'
   tf-version:
     description: Terraform version
     required: true
@@ -72,10 +76,10 @@ runs:
     id: plan
     run: |
       terraform plan \
-        -no-color \
         -input=false \
         -out=tfplan \
-        -detailed-exitcode
+        -detailed-exitcode \
+        -parallelism=${{ inputs.tf-paralellism }}
     continue-on-error: true
     working-directory: ${{ inputs.tf-root-dir }}
     env:
