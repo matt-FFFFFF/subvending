@@ -20,11 +20,11 @@ module "lz_vending" {
 
   # virtual network variables
   virtual_network_enabled = true
-  virtual_networks        = {
+  virtual_networks = {
     for k, v in each.value.virtual_networks : k => merge(
       v,
       {
-        hub_peering_enabled = false
+        hub_peering_enabled     = false
         hub_network_resource_id = ""
       }
     )
