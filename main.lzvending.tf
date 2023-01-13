@@ -1,6 +1,8 @@
+# The landing zone module will be called once per landing_zone_*.yaml file
+# in the data directory.
 module "lz_vending" {
   source   = "Azure/lz-vending/azurerm"
-  version  = "1.0.1" # change this to your desired version, https://www.terraform.io/language/expressions/version-constraints
+  version  = "2.1.1" # change this to your desired version, https://www.terraform.io/language/expressions/version-constraints
   for_each = local.landing_zone_data_map
 
   location = each.value.location
@@ -17,15 +19,14 @@ module "lz_vending" {
   subscription_management_group_id                  = each.value.management_group_id
 
   # virtual network variables
-  virtual_network_enabled             = true
-  virtual_network_address_space       = each.value.vnet_address_space
-  virtual_network_name                = "spoke"
-  virtual_network_resource_group_name = "rg-networking"
-  virtual_network_peering_enabled     = true
-  virtual_network_use_remote_gateways = false
-  hub_network_resource_id             = local.hub_networks_by_location[each.value.location].id
-
-  # role assignment variables
-  role_assignment_enabled = true
-  role_assignments        = each.value.role_assignments
+  virtual_network_enabled = true
+  virtual_networks        = {
+    for k, v in each.value.virtual_networks : k => merge(
+      v,
+      {
+        hub_peering_enabled = false
+        hub_network_resource_id = ""
+      }
+    )
+  }
 }
