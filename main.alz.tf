@@ -13,7 +13,7 @@ data "azurerm_client_config" "connectivity" {
 
 module "alz" {
   source  = "Azure/caf-enterprise-scale/azurerm"
-  version = "= 2.3.1"
+  version = "= 3.1.2"
 
   providers = {
     azurerm              = azurerm
