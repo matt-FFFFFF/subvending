@@ -2,6 +2,13 @@ name: ci-cd
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request_target:
+    types: ['opened', 'reopened', 'synchronize', 'labeled']
+    branches:
+      - main
 
 env:
   TF_IN_AUTOMATION: 1
@@ -25,7 +32,16 @@ jobs:
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         allow-no-subscriptions: true
 
+    # Checkout default branch for all event bar pull_request_target
     - uses: actions/checkout@v3
+      if: github.event_name != 'pull_request_target'
+
+    # Checkout PR head for pull_request_target
+    - uses: actions/checkout@v3
+      if: github.event_name == 'pull_request_target'
+      with:
+        ref: ${{ github.event.pull_request.head.sha }}
+        persist-credentials: false
 
     - name: Terraform plan composite action
       id: plan
@@ -37,7 +53,7 @@ jobs:
         tf-version: ~1.3.0
 
   cd:
-    if: github.ref == 'refs/heads/main' && needs.ci.outputs.plan-exitcode == '2'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'push' && needs.ci.outputs.plan-exitcode == '2'
     needs: ci
     runs-on: ubuntu-22.04
     environment: prod-approval
