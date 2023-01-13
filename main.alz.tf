@@ -35,7 +35,7 @@ module "alz" {
   // Set subscription IDs for placement of platform subs
   subscription_id_management   = data.azurerm_client_config.management.subscription_id
   subscription_id_connectivity = data.azurerm_client_config.connectivity.subscription_id
-  subscription_id_identity     = "2e4e0f6e-2391-498f-8f0f-ae54960cb44f"
+  #subscription_id_identity     = "2e4e0f6e-2391-498f-8f0f-ae54960cb44f"
 
   // Use management group association instead of having to be explicit about MG membership
   strict_subscription_association = false
