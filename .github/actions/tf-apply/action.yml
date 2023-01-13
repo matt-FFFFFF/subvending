@@ -9,7 +9,7 @@ inputs:
   environment:
     description: Environment
     required: true
-  tf-root-dir:  # id of input
+  tf-root-dir:
     description: 'Terraform root directory'
     required: true
     default: ${{ github.workspace }}
@@ -56,9 +56,3 @@ runs:
       ARM_TENANT_ID: ${{ inputs.arm-tenant-id }}
       ARM_USE_OIDC: 'true'
     shell: bash
-
-  # - name: Comment PR with plan summary
-  #   run: |
-  #     ${{ github.workspace}}/scripts/TerraformAnnotate.ps1 -JsonPlanPath ./tfplan.json
-  #   shell: pwsh
-  #   working-directory: ${{ inputs.tf-root-dir }}

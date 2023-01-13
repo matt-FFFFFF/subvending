@@ -47,6 +47,12 @@ jobs:
         ref: ${{ github.event.pull_request.head.sha }}
         persist-credentials: false
 
+    # This is a terrible hack but this is due to the fact that AZURE_TENANT_ID is required,
+    # it allows MSI to be tried for authentication. As GitHub actions runners are in Azure, this fails.
+    # This only works on Linux based runners
+    - name: iptables block MSI endpoint
+      run: sudo iptables -I OUTPUT --destination 169.254.169.254 -j REJECT
+
     - name: Terraform plan composite action
       id: plan
       uses: ./.github/actions/tf-plan
@@ -68,6 +74,12 @@ jobs:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         allow-no-subscriptions: true
+
+      # This is a terrible hack but this is due to the fact that AZURE_TENANT_ID is required,
+      # it allows MSI to be tried for authentication. As GitHub actions runners are in Azure, this fails.
+      # This only works on Linux based runners
+    - name: iptables block MSI endpoint
+      run: sudo iptables -I OUTPUT --destination 169.254.169.254 -j REJECT
 
     - uses: actions/checkout@v3
 
