@@ -46,7 +46,7 @@ runs:
       name: tfplan
       path: ${{ inputs.tf-root-dir }}
 
-  - name: Terraform plan
+  - name: Terraform apply
     id: apply
     run: |
       terraform apply \

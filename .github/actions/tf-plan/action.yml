@@ -29,9 +29,9 @@ inputs:
     required: true
     default: ${{ github.token }}
 outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
+  plan-exitcode:
+    description: "Terraform plan exitcode"
+    value: ${{ steps.plan.outputs.exitcode }}
 runs:
   using: composite
   steps:
