@@ -57,7 +57,7 @@ jobs:
         tf-version: ~1.3.0
 
   cd:
-    if: github.ref == 'refs/heads/main' && github.event_name != 'push' && needs.ci.outputs.plan-exitcode == '2'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request_target' && needs.ci.outputs.plan-exitcode == '2'
     needs: ci
     runs-on: ubuntu-22.04
     environment: prod-approval
