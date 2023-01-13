@@ -58,7 +58,7 @@ module "alz" {
   }
 
   // Connectivity (hub network) configuration
-  deploy_connectivity_resources = false
+  deploy_connectivity_resources = true
   configure_connectivity_resources = {
     settings = {
       ddos_protection_plan = {

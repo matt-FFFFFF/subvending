@@ -10,3 +10,4 @@ virtual_networks:
     address_space:
       - "192.168.0.0/24"
     resource_group_name: rg-networking
+    hub_peering_enabled: true

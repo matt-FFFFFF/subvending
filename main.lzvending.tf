@@ -24,8 +24,8 @@ module "lz_vending" {
     for k, v in each.value.virtual_networks : k => merge(
       v,
       {
-        hub_peering_enabled     = false
-        hub_network_resource_id = ""
+        hub_network_resource_id = local.hub_networks_by_location[each.value.location]
+        hub_peering_use_remote_gateways = false
       }
     )
   }
