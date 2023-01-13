@@ -24,6 +24,10 @@ inputs:
     description: TFLint version
     required: false
     default: latest
+  github-token:
+    description: PAT token
+    required: true
+    default: ${{ github.token }}
 outputs:
   random-number:
     description: "Random number"
@@ -38,6 +42,7 @@ runs:
   - uses: terraform-linters/setup-tflint@v2
     with:
       tflint_version: ${{ inputs.tflint-version }}
+      github_token: ${{ inputs.github-token }}
 
   - name: Terraform init
     run: |

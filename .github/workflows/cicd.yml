@@ -54,3 +54,4 @@ jobs:
         arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         tf-root-dir: ${{ github.workspace }}
         tf-version: ~1.3.0
+        github-token: ${{ secrets.PAT_TOKEN }}
