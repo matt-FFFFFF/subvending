@@ -1,5 +1,5 @@
-name: Terraform Plan
-description: Common steps for Terraform validation and plan
+name: Terraform Apply
+description: Common steps for Terraform apply
 inputs:
   arm-client-id:
     description: Azure client id
@@ -20,10 +20,6 @@ inputs:
   tf-version:
     description: Terraform version
     required: true
-  tflint-version:
-    description: TFLint version
-    required: false
-    default: latest
 outputs:
   random-number:
     description: "Random number"
@@ -35,10 +31,6 @@ runs:
     with:
       terraform_version: ${{ inputs.tf-version}}
 
-  - uses: terraform-linters/setup-tflint@v2
-    with:
-      tflint_version: ${{ inputs.tflint-version }}
-
   - name: Terraform init
     run: |
       terraform init  -input=false
@@ -48,38 +40,19 @@ runs:
       ARM_TENANT_ID: ${{ inputs.arm-tenant-id }}
     shell: bash
 
-  - name: Terraform validate
-    run: |
-      terraform validate
-    working-directory: ${{ inputs.tf-root-dir }}
-    shell: bash
-
-  - name: Terraform fmt check
-    run: |
-      terraform fmt -check
-    working-directory: ${{ inputs.tf-root-dir }}
-    shell: bash
-
-  - name: Tflint init
-    run: |
-      tflint --init
-    working-directory: ${{ inputs.tf-root-dir }}
-    shell: bash
-
-  - name: Tflint
-    run: |
-      tflint
-    working-directory: ${{ inputs.tf-root-dir }}
-    shell: bash
+  - name: Download artifact
+    uses: actions/download-artifact@v3
+    with:
+      name: tfplan
+      path: ${{ inputs.tf-root-dir }}
 
   - name: Terraform plan
-    id: plan
+    id: apply
     run: |
-      terraform plan \
+      terraform apply \
         -input=false \
-        -out=tfplan \
-        -detailed-exitcode \
-        -parallelism=${{ inputs.tf-paralellism }}
+        -parallelism=${{ inputs.tf-paralellism }} \
+        tfplan
     continue-on-error: true
     working-directory: ${{ inputs.tf-root-dir }}
     env:
@@ -87,28 +60,6 @@ runs:
       ARM_TENANT_ID: ${{ inputs.arm-tenant-id }}
       ARM_USE_OIDC: 'true'
     shell: bash
-
-  - name: Check for plan error
-    run: |
-      echo "Terraform plan exit code was '1' - review previous step"
-      exit 1
-    if: always() && steps.plan.outputs.exitcode == '1'
-    shell: bash
-
-  - name: Terraform show
-    run: |
-      terraform show -json tfplan > tfplan.json
-    if: steps.plan.outputs.exitcode == '2'
-    working-directory: ${{ inputs.tf-root-dir }}
-    shell: bash
-
-  - name: Upload artifact
-    uses: actions/upload-artifact@v3
-    with:
-      name: tfplan
-      path: |
-        ${{ github.workspace }}/tfplan*
-    if: steps.plan.outputs.exitcode == '2'
 
   # - name: Comment PR with plan summary
   #   run: |

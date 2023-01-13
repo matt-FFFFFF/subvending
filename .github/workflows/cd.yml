@@ -1,0 +1,34 @@
+name: cd
+
+on:
+  workflow_dispatch:
+
+env:
+  TF_IN_AUTOMATION: 1
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  cd:
+    runs-on: ubuntu-22.04
+    environment: prod
+    steps:
+    - name: Azure login
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        allow-no-subscriptions: true
+
+    - uses: actions/checkout@v3
+
+    - name: Terraform apply composite action
+      uses: ./.github/actions/tf-apply
+      with:
+        arm-client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        arm-tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        tf-root-dir: ${{ github.workspace }}
+        tf-version: ~1.3.0
