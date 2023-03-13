@@ -1,0 +1,13 @@
+---
+name: lz3
+workload: Production
+location: northeurope
+billing_enrollment_account: 322580
+management_group_id: mw-demo-corp
+virtual_networks:
+  vnet1:
+    name: spoke
+    address_space:
+      - "192.168.2.0/24"
+    resource_group_name: rg-networking
+    hub_peering_enabled: true
