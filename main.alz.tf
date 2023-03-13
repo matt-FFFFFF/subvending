@@ -13,7 +13,8 @@ data "azurerm_client_config" "connectivity" {
 
 module "alz" {
   source  = "Azure/caf-enterprise-scale/azurerm"
-  version = "= 3.1.2"
+  #source = "github.com/Azure/terraform-azurerm-caf-enterprise-scale?ref=main"
+  version = "= 3.3.0"
 
   providers = {
     azurerm              = azurerm
@@ -27,6 +28,7 @@ module "alz" {
 
   deploy_corp_landing_zones   = true
   deploy_online_landing_zones = true
+  deploy_diagnostics_for_mg   = true
 
   default_location = "northeurope"
 
