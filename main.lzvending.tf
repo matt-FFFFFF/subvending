@@ -2,7 +2,7 @@
 # in the data directory.
 module "lz_vending" {
   source   = "Azure/lz-vending/azurerm"
-  version  = "2.1.1" # change this to your desired version, https://www.terraform.io/language/expressions/version-constraints
+  version  = "3.1.0" # change this to your desired version, https://www.terraform.io/language/expressions/version-constraints
   for_each = local.landing_zone_data_map
 
   location = each.value.location
