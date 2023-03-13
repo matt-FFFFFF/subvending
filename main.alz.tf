@@ -12,7 +12,7 @@ data "azurerm_client_config" "connectivity" {
 
 
 module "alz" {
-  source  = "Azure/caf-enterprise-scale/azurerm"
+  source = "Azure/caf-enterprise-scale/azurerm"
   #source = "github.com/Azure/terraform-azurerm-caf-enterprise-scale?ref=main"
   version = "= 3.3.0"
 
