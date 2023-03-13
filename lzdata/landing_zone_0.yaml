@@ -1,5 +1,5 @@
 ---
-name: lz0
+name: newlz
 workload: Production
 location: northeurope
 billing_enrollment_account: 322580
